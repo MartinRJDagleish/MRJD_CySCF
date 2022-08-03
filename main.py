@@ -18,5 +18,12 @@ def main():
     water.translate(5, 0, 0)
     water.print_geom()
 
+    print(water.natom) # here is the problem -> AttributeError: 'molecule' object has no attribute 'natom'
+    # * define water as molecule object
+    
+
+    # symbols = cyscf.convert_zvals_to_symbols(water.z_vals)
+    # print(symbols)
+
 if __name__ == "__main__":
     main()
