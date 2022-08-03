@@ -12,7 +12,7 @@ def main():
             [0, -1.414995841403, 0.971041753535],
         ]
     )
-    water = cyscf.molecule(3, 0, [8, 1, 1], water_geom, "C2v")
+    water = cyscf.molecule(3, 0, np.array([8, 1, 1]), water_geom, "C2v")
 
     water.print_geom()
     water.translate(5, 0, 0)

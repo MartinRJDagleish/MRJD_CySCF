@@ -35,17 +35,22 @@ ctypedef np.int_t DTYPE_t
 # NumPy arrays, and b) make some attribute access like f.shape[0] much
 # more efficient. (In this example this doesn't matter though.)
 
-class molecule:
-    def __init__(self, natom, charge, z_vals, geom, point_group):
-        cdef int self.natom = natom
-        cdef int self.charge = charge
-        cdef int self.z_vals = z_vals
-        cdef np.ndarray self.geom = geom
-        cdef str self.point_group = point_group
+cdef class molecule:
+    cdef int natom, charge
+    cdef np.ndarray geom, z_vals 
+    cdef str point_group
+
+    def __cinit__(self, natom, charge, z_vals, geom, point_group):
+        self.natom = natom
+        self.charge = charge
+        self.z_vals = z_vals
+        self.geom = geom
+        self.point_group = point_group
 
     def print_geom(self):
         # * after loading the input file, print the geometry
         # * pass string with coordinates to the print function
+        cdef int i 
         for i in range(self.natom):
             print(
                 f"{self.z_vals[i]} {self.geom[i][0]:8.5f} {self.geom[i][1]:8.5f} {self.geom[i][2]:8.5f}"
@@ -56,6 +61,7 @@ class molecule:
         # TODO rotate geometry function
         return 0
 
+    cdef double x, y, z 
     def translate(self, x, y, z):
         for i in range(self.natom):
             self.geom[i][0] += x
