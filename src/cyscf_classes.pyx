@@ -19,7 +19,7 @@ np.import_array()
 # We now need to fix a datatype for our arrays. I've used the variable
 # DTYPE for this, which is assigned to the usual NumPy runtime
 # type info object.
-DTYPE = np.int
+DTYPE = int
 
 # "ctypedef" assigns a corresponding compile-time type to DTYPE_t. For
 # every type in the numpy module there's a corresponding compile-time
@@ -36,7 +36,7 @@ ctypedef np.int_t DTYPE_t
 # more efficient. (In this example this doesn't matter though.)
 
 # cdef class molecule:
-class molecule:
+cdef class molecule:
     cdef int natom, charge
     cdef np.ndarray geom, z_vals 
     cdef str point_group
@@ -103,18 +103,11 @@ atom_dict = {
 reverse_atom_dict = {v: k for k, v in atom_dict.items()}
 
 def convert_symbols_to_zvals(symbol):
-    return reverse_atom_dict[symbol]
+    return reverse_atom_dict.get(symbol)
 
-def convert_zvals_to_symbols(z_vals):
-    # * convert z_vals to symbols
-    return [atom_dict[z_val] for z_val in z_vals]
-    # cdef str symbol
-    # cdef list symbols = []
-    # for z_val in z_vals:
-    #     symbol = atom_dict.get(z_val)
-    #     symbols.append(symbol)
-    # return symbols
-
+def convert_zvals_to_symbols(z_val):
+    return atom_dict.get(z_val)
+    
 if __name__ == "__main__":
     import numpy as np
 
